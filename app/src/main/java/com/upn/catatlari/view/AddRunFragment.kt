@@ -30,16 +30,27 @@ class AddRunFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 🔹 Ambil data kalau mode EDIT
+        // 🔹 cek mode EDIT
         currentRun = arguments?.getParcelable("run")
 
-        // 🔹 Isi form kalau edit
-        currentRun?.let {
-            binding.etDate.setText(it.runDate)
-            binding.etRunDuration.setText(it.runDuration.toString())
-            binding.etRunDistance.setText(it.runDistance.toString())
+        // 🔥 isi form kalau EDIT
+        if (currentRun != null) {
+
+            binding.etDate.setText(currentRun?.runDate)
+            binding.etRunDuration.setText(currentRun?.runDuration.toString())
+            binding.etRunDistance.setText(currentRun?.runDistance.toString())
+            binding.etNote.setText(currentRun?.runNote)
+
+            binding.btnSaveRun.visibility = View.GONE
+            binding.btnUpdateRun.visibility = View.VISIBLE
+
+        } else {
+
+            binding.btnSaveRun.visibility = View.VISIBLE
+            binding.btnUpdateRun.visibility = View.GONE
         }
 
+        // 🟢 LOGIC BUTTON SIMPAN (ADD SAJA)
         binding.btnSaveRun.setOnClickListener {
 
             val runDate = binding.etDate.text.toString()
@@ -47,13 +58,11 @@ class AddRunFragment : Fragment() {
             val runDistanceText = binding.etRunDistance.text.toString()
             val note = binding.etNote.text.toString()
 
-            // 🔸 validasi kosong
             if (runDate.isEmpty() || runDurationText.isEmpty() || runDistanceText.isEmpty()) {
                 binding.etDate.error = "Tidak boleh kosong"
                 return@setOnClickListener
             }
 
-            // 🔸 validasi angka
             val duration = runDurationText.toIntOrNull()
             val distance = runDistanceText.toIntOrNull()
 
@@ -63,7 +72,6 @@ class AddRunFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            // 🔸 validasi > 0
             if (duration <= 0) {
                 binding.etRunDuration.error = "Harus lebih dari 0"
                 return@setOnClickListener
@@ -74,30 +82,41 @@ class AddRunFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            if (currentRun != null) {
-                // ✏️ UPDATE
+            val run = RunEntity(
+                id = 0,
+                runDate = runDate,
+                runDistance = distance,
+                runDuration = duration,
+                runNote = note
+            )
+
+            runViewModel.insert(run)
+            findNavController().popBackStack()
+        }
+
+        // 🔵 LOGIC BUTTON UPDATE (KHUSUS UPDATE)
+        binding.btnUpdateRun.setOnClickListener {
+
+            val runDate = binding.etDate.text.toString()
+            val runDurationText = binding.etRunDuration.text.toString()
+            val runDistanceText = binding.etRunDistance.text.toString()
+            val note = binding.etNote.text.toString()
+
+            val duration = runDurationText.toIntOrNull()
+            val distance = runDistanceText.toIntOrNull()
+
+            if (currentRun != null && duration != null && distance != null) {
+
                 val updatedRun = currentRun!!.copy(
                     runDate = runDate,
                     runDistance = distance,
                     runDuration = duration,
                     runNote = note
                 )
+
                 runViewModel.update(updatedRun)
-
-            } else {
-                // ➕ INSERT
-                val run = RunEntity(
-                    id = 0,
-                    runDate = runDate,
-                    runDistance = distance,
-                    runDuration = duration,
-                    runNote = note
-                )
-                runViewModel.insert(run)
+                findNavController().popBackStack()
             }
-
-            // kembali ke Home
-            findNavController().popBackStack()
         }
     }
 }
