@@ -1,69 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="20dp"
     tools:context=".view.AddRunFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/txt_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Let\'s Share"
-        android:textStyle="bold"
-        android:textSize="36sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-
-    <TextView
-        android:id="@+id/txt_title2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="your journey!"
+        android:text="Let's Share"
+        android:textStyle="bold"
         android:textSize="28sp"
-        app:layout_constraintTop_toBottomOf="@id/txt_title"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/txt_title"/>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:id="@+id/et_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="Enter date"
-        app:layout_constraintTop_toBottomOf="@id/txt_title2"
-        app:layout_constraintStart_toStartOf="@id/txt_title2"
-        app:layout_constraintEnd_toEndOf="@id/txt_title2"/>
+        android:hint="Tanggal"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/txt_title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:id="@+id/et_run_distance"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:hint="Jarak (km)"
+        android:inputType="number"
         android:layout_marginTop="16dp"
-        android:text="Masukkan jarak lari Anda"
         app:layout_constraintTop_toBottomOf="@id/et_date"
-        app:layout_constraintStart_toStartOf="@id/et_date"
-        app:layout_constraintEnd_toEndOf="@id/et_date"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:id="@+id/et_run_duration"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:hint="Durasi (menit)"
+        android:inputType="number"
         android:layout_marginTop="16dp"
-        android:text="Masukkan durasi Anda"
         app:layout_constraintTop_toBottomOf="@id/et_run_distance"
-        app:layout_constraintStart_toStartOf="@id/et_date"
-        app:layout_constraintEnd_toEndOf="@id/et_date"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <EditText
+        android:id="@+id/et_note"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Catatan"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/et_run_duration"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <Button
         android:id="@+id/btn_save_run"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Simpan"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/et_note"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 

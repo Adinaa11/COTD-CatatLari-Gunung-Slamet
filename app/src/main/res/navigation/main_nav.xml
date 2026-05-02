@@ -15,11 +15,22 @@
             android:id="@+id/action_homeFragment_to_addRunFragment"
             app:destination="@id/addRunFragment" />
     </fragment>
+
+    <!-- ⬇️ INI YANG DITAMBAHKAN -->
     <fragment
         android:id="@+id/addRunFragment"
         android:name="com.upn.catatlari.view.AddRunFragment"
         android:label="fragment_add_run"
-        tools:layout="@layout/fragment_add_run" />
+        tools:layout="@layout/fragment_add_run" >
+
+        <argument
+            android:name="run"
+            app:argType="com.upn.catatlari.database.RunEntity"
+            app:nullable="true" />
+
+    </fragment>
+    <!-- ⬆️ SELESAI TAMBAHAN -->
+
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.upn.catatlari.view.ProfileFragment"
