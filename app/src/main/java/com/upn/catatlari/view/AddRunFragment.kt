@@ -8,18 +8,20 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.upn.catatlari.databinding.FragmentAddRunBinding
-import com.upn.catatlari.model.Run
+import com.upn.catatlari.database.RunEntity
 import com.upn.catatlari.viewmodel.RunViewModel
 
 class AddRunFragment : Fragment() {
 
     private lateinit var binding: FragmentAddRunBinding
-    val runViewModel: RunViewModel by activityViewModels()
+    private val runViewModel: RunViewModel by activityViewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        // Inflate the layout for this fragment
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentAddRunBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -27,14 +29,24 @@ class AddRunFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnSaveRun.setOnClickListener {
+
             val runDate = binding.etDate.text.toString()
-            val runDuration = binding.etRunDuration.text.toString()
-            val runDistance = binding.etRunDistance.text.toString()
+            val runDurationText = binding.etRunDuration.text.toString()
+            val runDistanceText = binding.etRunDistance.text.toString()
 
-            val runInput = Run(runDate = runDate, runDuration = runDuration.toInt(), runDistance = runDistance.toInt())
+            if (runDate.isNotEmpty() && runDurationText.isNotEmpty() && runDistanceText.isNotEmpty()) {
 
-            runViewModel.addRun(runInput)
-            findNavController().popBackStack() // kembali ke halaman sebelumnya
+                val run = RunEntity(
+                    id = 0,
+                    runDate = runDate,
+                    runDistance = runDistanceText.toInt(),
+                    runDuration = runDurationText.toInt()
+                )
+
+                runViewModel.insert(run)
+
+                findNavController().popBackStack()
+            }
         }
     }
 }
