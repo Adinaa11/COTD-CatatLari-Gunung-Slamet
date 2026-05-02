@@ -34,19 +34,44 @@ class AddRunFragment : Fragment() {
             val runDurationText = binding.etRunDuration.text.toString()
             val runDistanceText = binding.etRunDistance.text.toString()
 
-            if (runDate.isNotEmpty() && runDurationText.isNotEmpty() && runDistanceText.isNotEmpty()) {
-
-                val run = RunEntity(
-                    id = 0,
-                    runDate = runDate,
-                    runDistance = runDistanceText.toInt(),
-                    runDuration = runDurationText.toInt()
-                )
-
-                runViewModel.insert(run)
-
-                findNavController().popBackStack()
+            //validasi cek kosong
+            if (runDate.isEmpty() || runDurationText.isEmpty() || runDistanceText.isEmpty()) {
+                binding.etDate.error = "Tidak boleh kosong"
+                return@setOnClickListener
             }
+
+            //validasi angka
+            val duration = runDurationText.toIntOrNull()
+            val distance = runDistanceText.toIntOrNull()
+
+            if (duration == null || distance == null) {
+                binding.etRunDuration.error = "Harus angka"
+                binding.etRunDistance.error = "Harus angka"
+                return@setOnClickListener
+            }
+
+            //validasi > 0
+            if (duration <= 0) {
+                binding.etRunDuration.error = "Harus lebih dari 0"
+                return@setOnClickListener
+            }
+
+            if (distance <= 0) {
+                binding.etRunDistance.error = "Harus lebih dari 0"
+                return@setOnClickListener
+            }
+
+            //simpan data
+            val run = RunEntity(
+                id = 0,
+                runDate = runDate,
+                runDistance = distance,
+                runDuration = duration
+            )
+
+            runViewModel.insert(run)
+
+            findNavController().popBackStack()
         }
     }
 }

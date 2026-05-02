@@ -16,23 +16,21 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val runViewModel: RunViewModel by activityViewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
         val user = (activity as MainActivity).user
         binding.welcomingTxt.text = "Halo, ${user?.email}"
 
         binding.floatingBtnAddRun.setOnClickListener {
-            findNavController().navigate(
-                HomeFragmentDirections.actionHomeFragmentToAddRunFragment()
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddRunFragment()
             )
         }
 
-        val runAdapter = RunAdapter()
+        val runAdapter = RunAdapter { run ->
+            runViewModel.delete(run)
+        }
 
         binding.rvRunList.layoutManager = LinearLayoutManager(requireContext())
         binding.rvRunList.adapter = runAdapter
@@ -43,4 +41,5 @@ class HomeFragment : Fragment() {
 
         return binding.root
     }
+
 }
