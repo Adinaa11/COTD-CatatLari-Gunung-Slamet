@@ -36,13 +36,12 @@ class RunAdapter(
             binding.txtRunDate.text = run.runDate
             binding.txtRunDistance.text = "${run.runDistance} km"
             binding.txtRunDuration.text = "${run.runDuration} menit"
+            binding.txtRunNote.text = run.runNote
 
-            // 🔴 DELETE (tetap ada)
             binding.btnDelete.setOnClickListener {
                 onDeleteClick(run)
             }
 
-            // 🟢 CLICK ITEM → EDIT
             binding.root.setOnClickListener {
                 onItemClick(run)
             }
