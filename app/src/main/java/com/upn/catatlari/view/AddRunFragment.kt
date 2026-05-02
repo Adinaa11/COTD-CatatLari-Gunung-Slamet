@@ -16,6 +16,8 @@ class AddRunFragment : Fragment() {
     private lateinit var binding: FragmentAddRunBinding
     private val runViewModel: RunViewModel by activityViewModels()
 
+    private var currentRun: RunEntity? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,19 +30,30 @@ class AddRunFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // 🔹 Ambil data kalau mode EDIT
+        currentRun = arguments?.getParcelable("run")
+
+        // 🔹 Isi form kalau edit
+        currentRun?.let {
+            binding.etDate.setText(it.runDate)
+            binding.etRunDuration.setText(it.runDuration.toString())
+            binding.etRunDistance.setText(it.runDistance.toString())
+        }
+
         binding.btnSaveRun.setOnClickListener {
 
             val runDate = binding.etDate.text.toString()
             val runDurationText = binding.etRunDuration.text.toString()
             val runDistanceText = binding.etRunDistance.text.toString()
+            val note = binding.etNote.text.toString()
 
-            //validasi cek kosong
+            // 🔸 validasi kosong
             if (runDate.isEmpty() || runDurationText.isEmpty() || runDistanceText.isEmpty()) {
                 binding.etDate.error = "Tidak boleh kosong"
                 return@setOnClickListener
             }
 
-            //validasi angka
+            // 🔸 validasi angka
             val duration = runDurationText.toIntOrNull()
             val distance = runDistanceText.toIntOrNull()
 
@@ -50,7 +63,7 @@ class AddRunFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            //validasi > 0
+            // 🔸 validasi > 0
             if (duration <= 0) {
                 binding.etRunDuration.error = "Harus lebih dari 0"
                 return@setOnClickListener
@@ -61,16 +74,29 @@ class AddRunFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            //simpan data
-            val run = RunEntity(
-                id = 0,
-                runDate = runDate,
-                runDistance = distance,
-                runDuration = duration
-            )
+            if (currentRun != null) {
+                // ✏️ UPDATE
+                val updatedRun = currentRun!!.copy(
+                    runDate = runDate,
+                    runDistance = distance,
+                    runDuration = duration,
+                    runNote = note
+                )
+                runViewModel.update(updatedRun)
 
-            runViewModel.insert(run)
+            } else {
+                // ➕ INSERT
+                val run = RunEntity(
+                    id = 0,
+                    runDate = runDate,
+                    runDistance = distance,
+                    runDuration = duration,
+                    runNote = note
+                )
+                runViewModel.insert(run)
+            }
 
+            // kembali ke Home
             findNavController().popBackStack()
         }
     }
