@@ -51,5 +51,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:text="22-03-2025"/>
+        <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="end"
+            android:text="Hapus"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
