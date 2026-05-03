@@ -5,7 +5,7 @@
 - Nayla Sifa'ul Qolbi - 24082010047
 - Genduk Nurul Aini - 24082010055
 - Adina Nur Afida - 24082010057
-- Rosalinda EkaHernalia - 24082010069
+- Rosalinda Eka Hernalia - 24082010069
 
 ---
 
